@@ -1,0 +1,33 @@
+
+ # title: "FIT5147 ass 2"
+#author: "Akshay Sapra - 29858186"
+#date: "4 April 2019"
+#output: html_document
+#runtime: shiny
+
+  #Task 1 reading the data into CSV
+corals = read.csv("assignment-02-data-formated.csv", header=TRUE, sep=',')
+corals$value =as.numeric(gsub("%","",as.character(corals$value)))
+#corals$value= as.numeric_version(corals$value)
+corals
+
+
+# task 2 Ordering of data 
+corals<-corals[order(corals$latitude),]
+coralslocation<-unique(corals$location)
+#coralslocation
+corals$location<-factor((corals$location),levels=coralslocation)
+corals
+
+
+#Task2 creating static graph + ordering by latititude+ facet+smoother
+library(ggplot2)
+myGraph = ggplot ( data = corals, aes (x = year,y = value))
+myGraph+geom_point()+ facet_grid(location~coralType)+ geom_smooth(aes(group = 1))
+
+
+
+#Refernece: https://community.rstudio.com/t/filtering-my-plot-according-to-user-selection-shiny/27517
+
+
+
